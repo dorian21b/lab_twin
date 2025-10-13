@@ -1,0 +1,8 @@
+Metadata-Version: 2.4
+Name: lab_twin
+Version: 0.1.0
+Summary: Digital twin of WGS rare disease workflow
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+
+# lab_twin — Digital Twin for Laboratory Workflow Optimization
