@@ -1,0 +1,54 @@
+# # Simulation inputs
+
+# # Paths
+# outputs_root: "outputs_pipeline"
+
+# n_batches: 6
+# samples_per_batch: 96
+# seeds: [1,2,3,4,5,6,7,8,9,10]      # used by sweeps/ML
+# sla_min: 3600                      # 5x12x60
+
+# # Baseline scenario (monitoring)
+# arrival_min_gap: 60                # minutes
+# arrival_policy: "min_gap"          # or "wip_cap"
+# wip_cap: 2
+
+# urgent_share: 0.2
+# urgent_sla_weeks: 3
+# routine_sla_weeks: 6
+
+# # Optimization sweeps
+# min_gap_grid: [5,10,20,30,60,80,120]
+# wip_caps: [2,3,4,5]
+
+# # ML grid (for interpolation / contours)
+# ml_min_gap_range: [5, 80, 0.75]    # start, stop, step
+# ml_wip_cap_set: [2,3,4,5]
+
+
+# Simulation inputs stressed case
+
+# Paths
+outputs_root: "outputs_pipeline"
+
+n_batches: 1000
+samples_per_batch: 96
+seeds: [1,2,3,4,5,6,7,8,9,10]      # used by sweeps/ML
+sla_min: 3600                      # 5x12x60
+
+# Baseline scenario (monitoring)
+arrival_min_gap: 0                # minutes
+arrival_policy: "wip_cap"          # or "wip_cap"
+wip_cap: 5
+
+urgent_share: 0.2
+urgent_sla_weeks: 3
+routine_sla_weeks: 6
+
+# Optimization sweeps
+min_gap_grid: [5,10,20,30,60,80,120]
+wip_caps: [2,3,4,5]
+
+# ML grid (for interpolation / contours)
+ml_min_gap_range: [5, 80, 0.75]    # start, stop, step
+ml_wip_cap_set: [2,3,4,5]

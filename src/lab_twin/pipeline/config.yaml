@@ -1,0 +1,42 @@
+# Global knobs used by multiple steps (sim, monitor, optimization)
+outputs_root: "outputs_pipeline"
+
+# These lists are REQUIRED by 05_opt_2d.py
+min_gap_grid: [5,10,20,30,60,80,120]
+wip_caps: [2,3,4,5]
+seeds: [1,2,3,4,5,6,7,8,9,10]      # used by sweeps/ML
+sla_min: 3600                      # 5x12x60
+
+# Shared defaults for scenarios (used by 01_simulate)
+defaults:
+  samples_per_batch: 96
+  urgent_share: 0.20
+  urgent_sla_weeks: 6
+  routine_sla_weeks: 6
+  arrival_min_gap: 60
+  arrival_policy: "min_gap"
+  wip_cap: 2
+
+# Scenario 1: baseline = normal day
+baseline:
+  n_batches: 6
+  arrival_policy: "min_gap"
+  arrival_min_gap: 60     # 1 batch/hour
+  wip_cap: 2              # not used here because policy=min_gap
+  scenario_label: "baseline"
+
+# Scenario 2: stress = surge day
+stress:
+  n_batches: 15
+  arrival_policy: "min_gap"
+  arrival_min_gap: 10     # batches twice as frequent
+  wip_cap: 5              # (ignored in min_gap mode)
+  scenario_label: "stress"
+
+# Scenario 3: controlled = same surge, but controlled intake
+controlled:
+  n_batches: 15
+  arrival_policy: "wip_cap"
+  arrival_min_gap: 10     # samples are arriving fast in reality...
+  wip_cap: 5              # ...but we only let 2 batches actively consume lab capacity at once
+  scenario_label: "controlled"

@@ -7,8 +7,8 @@ COURIER_DELIVERING_HUB = Process(
     process_id="courier_delivering_hub",
     name="Courier delivers sample to the HUB",
     stage=Stage.HUB_PREPCR,
-    actor_role="",         #To Be Confirmed
-    resources=(""),        #To Be Confirmed
+    actor_role="TBC",         #To Be Confirmed
+    resources=("TBC_HUB_COURIER",),        #To Be Confirmed
     duration_min_min=0,    #To Be Confirmed
     duration_max_min=0,    #To Be Confirmed
     is_actionable=True,
@@ -19,20 +19,20 @@ SR_PROCESS_STEP = Process(
     process_id="sr_process_step",
     name="TBC delivery at the Hub Central SR process step",
     stage=Stage.HUB_PREPCR,
-    actor_role="",         #To Be Confirmed
-    resources=(""),        #To Be Confirmed
+    actor_role="TBC",         #To Be Confirmed
+    resources=("TBC_HUB_SR_PROCESS",),        #To Be Confirmed
     duration_min_min=0,    #To Be Confirmed
     duration_max_min=0,    #To Be Confirmed
     is_actionable=True,
     description=""
 )
 
-TRANSPORT_TO_7th_FLOOR = Process(
+TRANSPORT_TO_7TH_FLOOR = Process(
     process_id="transport_to_7th_floor",
     name="Samples transported to floor 7 at the Hub",
     stage=Stage.HUB_PREPCR,
     actor_role="",         #To Be Confirmed
-    resources=("Telelift","Kevin"),        #To Be Confirmed
+    resources=("Telelift","Kevin",),        #To Be Confirmed
     duration_min_min=0,    #To Be Confirmed
     duration_max_min=0,    #To Be Confirmed
     is_actionable=True,
@@ -52,7 +52,7 @@ RECEIPT_SCAN_2D = Process(
 )
 
 STORE_IF_LATE = Process(
-    process_id="receipt_scan_2d",
+    process_id="store_if_late",
     name="Store if received after process cutoff point",
     stage=Stage.HUB_PREPCR,
     actor_role="Band 5",
@@ -78,7 +78,6 @@ DAY2 = Process(
     description="Need PC to scan plate but where does results go? Filemaker Pro for example? Need to scan on deck of robot to show what plate is in use firefly?",
 )
 
-
 """----------------------------------------------------------------------------------------------------------------------------"""
 
 RETRIEVE_AND_SCAN = Process(
@@ -86,7 +85,7 @@ RETRIEVE_AND_SCAN = Process(
     name="Retrieve plate, tubes and scan",
     stage=Stage.HUB_PREPCR,
     actor_role="Band 5",
-    resources=("LIMS", "Scanner"),
+    resources=("LIMS", "Scanner",),
     duration_min_min=5,
     duration_max_min=5,
     is_actionable=True,
@@ -120,7 +119,7 @@ SCAN_PLATE = Process(
     name="Scan plate into LIMS to confirm correct",
     stage=Stage.HUB_PREPCR,
     actor_role="Band 5",
-    resources=("LIMS", "Plate scanner"),
+    resources=("LIMS", "Plate scanner",),
     duration_min_min=5,
     duration_max_min=5,
     is_actionable=True,
@@ -206,7 +205,7 @@ RECORD_QC = Process(
 """----------------------------------------------------------------------------------------------------------------------------"""
 
 
-TRANDSFER_DNA_TO_LIBRARY = Process(
+TRANSFER_DNA_TO_LIBRARY = Process(
     process_id="transfer_dna_to_library_prep_plate",
     name="Transfer of DNA to DNA library prep plate",
     stage=Stage.HUB_PREPCR,
@@ -218,7 +217,7 @@ TRANDSFER_DNA_TO_LIBRARY = Process(
     description="",
 )
 
-END_OF_DQY_ROBOT_MAINTANANCE = Process(
+END_OF_DAY_ROBOT_MAINTENANCE = Process(
     process_id="end_of_day_robot_maintanance",
     name="End of day robot maintanance",
     stage=Stage.HUB_PREPCR,
@@ -331,7 +330,7 @@ FINAL_CONC_ADJUSTMENT = Process(
     name="Final concentration adjustment",
     stage=Stage.HUB_PREPCR,
     actor_role="Band 5",
-    resources=("",),
+    resources=("TBC_FINAL_ADJUSTMENT",),
     duration_min_min=10,
     duration_max_min=10,
     is_actionable=True,
@@ -393,7 +392,7 @@ AFTER_RUN_PREPARATION = Process(
     name="After run preparation",
     stage=Stage.HUB_POSTPCR,
     actor_role="Band 5",
-    resources=("",),
+    resources=("TBC_AFTER_RUN_PREP",),
     duration_min_min=15,
     duration_max_min=15,
     is_actionable=True,
@@ -421,8 +420,8 @@ FAILED_DNA_QC = Process(
     description="",
 )
 
-RECORD_QC = Process(
-    process_id="record_qc",
+RECORD_QC_FAIL = Process(
+    process_id="record_qc_fail",
     name="Record QC",
     stage=Stage.HUB_PREPCR,
     actor_role="Band 5",

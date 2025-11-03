@@ -1,5 +1,6 @@
 # sim/nodes.py
 import random, simpy
+from lab_twin.sim.duration_scale import scale_service_time   # <-- ADD
 
 class ProcessNode:
     def __init__(
@@ -25,6 +26,10 @@ class ProcessNode:
     def connect(self, next_node: "ProcessNode|None"):
         self.next = next_node
         return next_node
+
+    def _service_time(self) -> float:
+        base = random.uniform(self.proc.duration_min_min, self.proc.duration_max_min)
+        return scale_service_time(self.proc.process_id, base)  # <-- SCALE HERE
 
     def enqueue(self, batch):
         # arrival is when we enqueue at the head
@@ -116,3 +121,53 @@ class ProcessNode:
             # pass downstream
             if self.next:
                 yield self.next.enqueue(batch)
+
+
+class DecisionNode:
+    def __init__(self, env: simpy.Environment, name: str, condition, log_event):
+        self.env = env
+        self.name = name
+        self.condition = condition
+        self.log = log_event
+        self.in_store = simpy.Store(env)
+        self.branches = {}
+        env.process(self._run())
+
+    def connect_yes(self, node): self.branches["yes"] = node; return node
+    def connect_no(self, node):  self.branches["no"]  = node; return node
+    def connect_branch(self, name: str, node): self.branches[name] = node; return node
+
+    def enqueue(self, batch):
+        return self.in_store.put({"batch": batch, "enqueue_min": self.env.now})
+
+    def _run(self):
+        while True:
+            token = yield self.in_store.get()
+            batch = token["batch"]
+            q_enter = token["enqueue_min"]
+            q_len_on_arrival = len(self.in_store.items)
+            wait = self.env.now - q_enter
+            start = self.env.now
+
+            outcome = self.condition(batch)
+            branch = "yes" if isinstance(outcome, bool) and outcome else ("no" if isinstance(outcome, bool) else str(outcome))
+            end = self.env.now
+
+            self.log(
+                process_id=f"decision:{self.name}",
+                batch_id=batch.batch_id,
+                sim_start_min=start,
+                sim_end_min=end,
+                service_min=0.0,
+                wait_min=wait,
+                queue_len_on_arrival=q_len_on_arrival,
+                status=f"ROUTED:{branch}",
+                resource_name="",
+                note="",
+            )
+
+            nxt = self.branches.get(branch)
+            if nxt is None:
+                batch.mark_complete(end)
+            else:
+                yield nxt.enqueue(batch)

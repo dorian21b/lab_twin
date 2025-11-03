@@ -6,6 +6,7 @@ from datetime import datetime, timezone
 @dataclass
 class Sample:
     barcode: str | None = None
+    priority: str = "routine"
     source_lab: str = "GSTT"
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
